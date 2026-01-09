@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Verificar PCI</title>
+</head>
+<body>
+
+<h2>Entrada_JSON</h2>
+
+<textarea id="jsonInput" rows="18" cols="90">
+{
+  "PCI_critico": 65
+}
+</textarea>
+
+<br><br>
+<button onclick="enviar()">Ejecutar</button>
+
+<h3>Resultado</h3>
+<pre id="resultado"></pre>
+
+<script>
+async function enviar() {
+  const txt = document.getElementById("jsonInput").value;
+  const obj = JSON.parse(txt);
+
+  const resp = await fetch("/api/verificar", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(obj)
+  });
+
+  const data = await resp.json();
+  document.getElementById("resultado").textContent =
+    JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
+
